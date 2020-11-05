@@ -1,5 +1,5 @@
 const orioClient = require('./akairo.js');
-const connectToServer = require('./utilities/mongoDB.js'); 
+const connectToServer = require('./utilities/dbUtils.js'); 
 require('dotenv').config();
 /**
  * startup : Makes an "orio" client using args from enviromental variables. 
@@ -7,11 +7,13 @@ require('dotenv').config();
  */
 async function startUp() {
     console.log("Starting Bot..");
-    console.time("Bot_Load_Time");
-    orio = new orioClient(process.env.ownerID); //create new instance of orioClient with ownerID from dotenv.
-    await orio.login(process.env.token); 
-    await connectToServer.login(process.env.uri);
-    console.timeEnd("Bot_Load_Time");
+    console.time("Bot_Total_Load_Time");
+
+    orio = new orioClient(process.env.OWNERID); //create new instance of orioClient with ownerID from dotenv.
+    await orio.login(process.env.TOKEN); 
+    await connectToServer.login(process.env.URI);
+
+    console.timeEnd("Bot_Total_Load_Time");
 }
 
 

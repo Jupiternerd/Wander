@@ -1,3 +1,8 @@
+/**
+ * @author Wai
+ * @module mongoose_model
+ */
+
 const mongoose = require("mongoose");
 const botdataSchema = mongoose.Schema({
   _id: Number,
