@@ -5,15 +5,17 @@
 
 const { Command } = require("discord-akairo");
 const { MessageEmbed } = require("discord.js");
+
 const menuModule = require('../../utilities/menus.js');
+
 class ping extends Command {
     constructor() {
         super('ping', {
             aliases: ['ping'],
-            category: 'normal',
+            category: 'standard',
             ratelimit: 1,
             description: "pong!",
-            version: 1.0
+
 
         })
     }
@@ -44,7 +46,7 @@ class ping extends Command {
             reactions: {
                 '❤️': { point: 1}, //1 [Page Number] OR //forwards, backwards
                 '💡': { point: 2},
-                '🍎': { point: 3}   
+                '🍎': { point: 3}
 
         }
             
@@ -56,11 +58,12 @@ class ping extends Command {
 
             body: pingEmbedthres,
             reactions: {
-                '🍎' : { delete: true }
+                '❤️': { point: 1},
+                '🍎' : { point: 'delete' }
             }
 
         }
-    ]);
+    ], message.author ,18000);
 
     ping.startMenu();
        
