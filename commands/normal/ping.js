@@ -44,9 +44,9 @@ class ping extends Command {
         
             body: pingEmbeduno,
             reactions: {
-                '❤️': { point: 1}, //1 [Page Number] OR //forwards, backwards
-                '💡': { point: 2},
-                '🍎': { point: 3}
+                '1': 0, //1 [Page Number] OR //forwards, backwards
+                '2': 1,
+                '3': 2
 
         }
             
@@ -58,8 +58,8 @@ class ping extends Command {
 
             body: pingEmbedthres,
             reactions: {
-                '❤️': { point: 1},
-                '🍎' : { point: 'delete' }
+                '1': 0,
+                '2': 'delete'
             }
 
         }

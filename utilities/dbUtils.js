@@ -30,7 +30,7 @@ class dbUtils {
             await connect();
     
         } finally { //Finally log the results.
-            console.log(`DB connection successful after [${serverRetries}] retries, time elasped:`); //Logs the retries and the time elasped.
+            console.log(`DB connection successful after ${serverRetries > 0 ? serverRetries : "no"} ${serverRetries == 1 ? "retry" : "retries"}, time elasped:`); //Logs the retries and the time elasped.
             console.timeEnd("Database_Connection_Time"); //Stops timer.
         }
     
