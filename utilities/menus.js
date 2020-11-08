@@ -9,7 +9,13 @@ class page {
          * 
          * Try to parse the reactions's functions in here so no weird things like 'd3lete' gets by. Only numbers 0 - 9, delete and some other helper functions.
          */
-        
+        for (const aReaction in unoPage.reactions) { //Iterates through reactions.
+            if (!isNaN(aReaction)) { //sees a number, in string or without string. 
+              if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
+              unoPage.reactions[emojiNumbers[aReaction]] = unoPage.reactions[aReaction]; //replaces old key with the new one from emojiNumbers[aReactions].
+              delete unoPage.reactions[aReaction]; //deletes the old key.
+            }
+          } 
         this.reactions = unoPage.reactions || {'🆗': 'delete' };
 
         this.index = index;
@@ -47,6 +53,8 @@ class menuModule {
             index++;
 
         })
+
+        this.currentPage = this.pages[0]
     }
     
 
@@ -57,24 +65,50 @@ class menuModule {
      * 
      */
 
-    reactTo(msg, emojis) {
-        for (var emjs in emojis) {
+    reactTo() {
+        for (const emjs in this.currentPage.reactions) {
 
-            //console.log(typeof Number.parseInt(emjs) == "number");
-            
-            typeof Number.parseInt(emjs) == "number" ? emjs = emojiNumbers[emjs] : emjs = emjs;
-
-            msg.react(emjs);
+            this.menu.react(emjs);
 
 
         };
 
     };
+    delete () {
+        if (this.reactionCollector) this.reactionCollector.stop()
+        if (this.menu) this.menu.delete()
+      }
 
-    static setPage(msg) {
+    clearReactions () {
+        if (this.menu) {
+          this.menu.reactions.removeAll().catch(e => {
+              console.log(e);
+          })
+        }
+      }
+
+    stop () {
+        if (this.reactionCollector) {
+          this.reactionCollector.stop();
+          this.clearReactions();
+        }
+    }
+      
+
+    setPage(page) {
+        if (!page) page = 0;
         try {
-
-        msg.edit();
+            console.log(page);
+            
+            this.pageIndex = page
+            this.currentPage = this.pages[this.pageIndex]
+            console.log(this.currentPage)
+            this.menu.edit(this.currentPage.embed)
+        
+            this.clearReactions()
+            this.reactionCollector.stop()
+            this.reactTo()
+            this.awaitReactions()
 
         } catch (e) {
 
@@ -89,7 +123,56 @@ class menuModule {
         }
 
     };
+   /** 
+     * Original @author jowsey
+     * Re edited it for custom use.
+    */
+    
 
+   async awaitReactions() {
+    this.reactionCollector = this.menu.createReactionCollector((reaction, user) => user.id === this.user.id, { time: this.ms })
+    this.reactionCollector.on('collect', reaction => {
+        reaction.emoji.name
+      
+      const reactionName = Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.name) ? reaction.emoji.name
+        : Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.id) ? reaction.emoji.id : null
+        console.log(reactionName)
+        if (reactionName) {
+        switch (this.currentPage.reactions[reactionName]) {
+          case 'first':
+            this.setPage(0)
+            break
+          case 'last':
+            this.setPage(this.pages.length - 1)
+            break
+          case 'backward':
+            if (this.pageIndex > 0) {
+              this.setPage(this.pageIndex - 1)
+            }
+            break
+          case 'forward':
+            if (this.pageIndex < this.pages.length - 1) {
+              this.setPage(this.pageIndex + 1)
+            }
+            break
+          case 'stop':
+            this.stop()
+            break
+          case 'delete':
+            this.delete()
+            break
+          default:
+            console.log("ey")
+            this.setPage(this.pages.findIndex(p => p.index === this.currentPage.reactions[reactionName]))
+            break
+        }
+      }
+    })
+    this.reactionCollector.on('end', () => {
+    this.clearReactions();
+     
+    })
+}
 
     /**
      * Creates a menu depending on the arguments it's either 1-9 or some other emojis.
@@ -98,9 +181,20 @@ class menuModule {
     async startMenu() { 
 
         //console.log(this.pages)
-        const embedMessage = await this.chan.send(this.pages[0]);
+        try {
+            let fMsg = await this.chan.send(this.pages[0]);
+
+            this.menu = fMsg;
+            this.reactTo();
+            this.awaitReactions();
+        } catch (e) {
+            console.log(e);
+        }
+
        // embedMessage.react(emojiNumbers[0])
-        this.reactTo(embedMessage, this.pages[0].reactions);
+        
+
+        
 
         
 
@@ -113,14 +207,11 @@ class menuModule {
         
     };
 
-    static awaitReactions() {
-       
-       this.reactionCollector = this.menus.createReactionCollector((reactions, user) => user.id === this.user.id, { time: this.ms })
-
-    }
 
 
 
+
+ 
 
 
     

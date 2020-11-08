@@ -41,9 +41,9 @@ class ping extends Command {
 
         let ping = new menuModule(message, [
             {
-        
             body: pingEmbeduno,
             reactions: {
+
                 '1': 0, //1 [Page Number] OR //forwards, backwards
                 '2': 1,
                 '3': 2

@@ -10,7 +10,7 @@ async function startUp() {
     console.time("Bot_Total_Load_Time");
 
     orio = new orioClient(process.env.OWNERID); //create new instance of orioClient with ownerID from dotenv.
-    await connectToServer.login(process.env.URI);
+    connectToServer.login(process.env.URI);
     await orio.login(process.env.TOKEN); 
     
     console.timeEnd("Bot_Total_Load_Time");
