@@ -1,12 +1,11 @@
-const { EventEmitter } = require('events')
-const { TextChannel, MessageEmbed, Message } = require('discord.js')
+const { TextChannel, MessageEmbed } = require('discord.js')
 const requiredPerms = ['SEND_MESSAGES', 'EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES']
 const emojiNumbers = ["\u0030\u20E3","\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3", "\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"]
+const reactionRegEx = /\[\d*\]/g;
+
 /**
- * Original Author : Jowsey, forked and edited for my use.
- */
-/**
- * A page object that the menu can display.
+ * ORIGINAL @AUTHOR : @Jowsey kudos <3
+ * Edited by me for personal use. mainly small quality of life changes
  */
 class Page {
   /**
@@ -17,18 +16,26 @@ class Page {
     * @param {Number} index The index of this page in the Menu
      */
   constructor (name, content, reactions, index) {
-    this.name = name
-    this.content = content
-    
-    for (const aReaction in reactions) { //Iterates through reactions.
-      if (!isNaN(aReaction)) { //sees a number, in string or without string. 
-        if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
-        reactions[emojiNumbers[aReaction]] = reactions[aReaction]; //replaces old key with the new one from emojiNumbers[aReactions].
-        delete reactions[aReaction]; //deletes the old key.
-      }
-    } 
-    this.reactions = reactions;
+    this.name = name;
+    this.content = content;
+ 
+    for (var aReaction in reactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
+        if (reactionRegEx.test(aReaction)) { 
+          aReaction = aReaction.replace("[", "");
+          aReaction = aReaction.replace("]", "");
+
+          if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
+          
+          reactions[emojiNumbers[parseInt(aReaction)]] = reactions["[" + aReaction + "]"]; //replaces old key with the new one from emojiNumbers[aReactions].
+          delete reactions["[" + aReaction + "]"]; //deletes the old key.
+        }
+      } 
+
+   
+    this.reactions = reactions || {'🆗': 'delete' };
+
     this.index = index;
+
   }
 }
 
@@ -37,7 +44,7 @@ class Page {
  * Blacklisted page names are: `first, last, previous, next, stop, delete`.
  * These names perform special functions and should only be used as reaction destinations.
  */
-class Menu extends EventEmitter {
+class Menu {
   /**
     * Creates a menu.
     * @param {TextChannel} channel The text channel you want to send the menu in.
@@ -53,7 +60,6 @@ class Menu extends EventEmitter {
     * These names perform special functions and should only be used as reaction destinations.
     */
   constructor (channel, userID, pages, ms = 180000) {
-    super()
     this.channel = channel
     this.userID = userID
     this.ms = ms
@@ -93,6 +99,7 @@ class Menu extends EventEmitter {
     this.currentPage = this.pages[0]
     /**
      * The index of the Pages array we're currently on.
+     * @type {Number}
      */
     this.pageIndex = 0
   }
@@ -101,7 +108,7 @@ class Menu extends EventEmitter {
    * Send the Menu and begin listening for reactions.
    */
   start () {
-    this.emit('pageChange', this.currentPage)
+   
     this.channel.send(this.currentPage.content).then(menu => {
       this.menu = menu
       this.addReactions()
@@ -153,13 +160,12 @@ class Menu extends EventEmitter {
    * @param {Number} page The index of the page the Menu should jump to.
    */
   setPage (page = 0) {
-    this.emit('pageChange', this.pages[page])
+    
 
     this.pageIndex = page
     this.currentPage = this.pages[this.pageIndex]
     this.menu.edit(this.currentPage.content)
 
-    this.clearReactions()
     this.reactionCollector.stop()
     this.addReactions()
     this.awaitReactions()
@@ -170,7 +176,6 @@ class Menu extends EventEmitter {
    */
   addReactions () {
     for (const reaction in this.currentPage.reactions) {
-      //if (typeof Number.parseInt(reaction) == "number") reaction = emojiNumbers[reaction];
       this.menu.react(reaction).catch(error => {
         if (error.toString().indexOf('Unknown Emoji') >= 0) {
           console.log(`\x1B[96m[discord.js-menu]\x1B[0m ${error.toString()} (whilst trying to add reactions to message) | The emoji you were trying to add to page "${this.currentPage.name}" (${reaction}) probably doesn't exist. You probably entered the ID wrong when adding a custom emoji.`)
@@ -181,30 +186,46 @@ class Menu extends EventEmitter {
     }
   }
 
+  secret () {
+    console.log("Secret!")
+
+  }
+
   /**
    * Start a reaction collector and switch pages where required.
    */
   awaitReactions () {
     this.reactionCollector = this.menu.createReactionCollector((reaction, user) => user.id === this.userID, { time: this.ms })
-    this.reactionCollector.on('collect', reaction => {
+    let sameReactions;
+
+    this.reactionCollector.on('collect', (reaction, user) => {
       // If the name exists, prioritise using that, otherwise, use the ID. If neither are in the list, don't run anything.
-      const reactionName = Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.name) ? reaction.emoji.name
+      const reactionName = Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.name)
+        ? reaction.emoji.name
         : Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.id) ? reaction.emoji.id : null
       if (reactionName) {
+        this.reactionCollector.on('end', () => {
+          !sameReactions ? this.clearReactions() : reaction.users.remove(user)
+        })
+
         switch (this.currentPage.reactions[reactionName]) {
           case 'first':
+            sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages[0].reactions))
             this.setPage(0)
             break
           case 'last':
+            sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages[this.pages.length - 1].reactions))
             this.setPage(this.pages.length - 1)
             break
           case 'backward':
             if (this.pageIndex > 0) {
+              sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages[this.pageIndex - 1].reactions))
               this.setPage(this.pageIndex - 1)
             }
             break
           case 'forward':
             if (this.pageIndex < this.pages.length - 1) {
+              sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages[this.pageIndex + 1].reactions))
               this.setPage(this.pageIndex + 1)
             }
             break
@@ -214,16 +235,22 @@ class Menu extends EventEmitter {
           case 'delete':
             this.delete()
             break
+          case 'secret':
+            this.secret()
+            sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages.find(p => p.name === this.currentPage.reactions[reactionName]).reactions))
+            this.setPage(this.pages.findIndex(p => p.name === this.currentPage.reactions[reactionName]))
+            break;
+
+
           default:
-            
-            this.setPage(this.pages.findIndex(p => p.index === this.currentPage.reactions[reactionName]))
+            // TODO: Sort out documenting this as a TSDoc event.
+            sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages.find(p => p.name === this.currentPage.reactions[reactionName]).reactions))
+            this.setPage(this.pages.findIndex(p => p.name === this.currentPage.reactions[reactionName]))
             break
         }
       }
     })
-    this.reactionCollector.on('end', () => {
-      this.clearReactions()
-    })
   }
 }
+
 module.exports = Menu;
