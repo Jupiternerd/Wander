@@ -54,6 +54,8 @@ class menuModule {
 
         })
 
+        console.log(this.pages);
+
         this.currentPage = this.pages[0]
     }
     
@@ -76,6 +78,7 @@ class menuModule {
     };
     delete () {
         if (this.reactionCollector) this.reactionCollector.stop()
+       // console.log(this.menu)
         if (this.menu) this.menu.delete()
       }
 
@@ -95,8 +98,8 @@ class menuModule {
     }
       
 
-    setPage(page) {
-        if (!page) page = 0;
+    setPage(page = 0) {
+
         try {
             console.log(page);
             
@@ -132,11 +135,11 @@ class menuModule {
    async awaitReactions() {
     this.reactionCollector = this.menu.createReactionCollector((reaction, user) => user.id === this.user.id, { time: this.ms })
     this.reactionCollector.on('collect', reaction => {
-        reaction.emoji.name
+       //console.log(reaction.emoji.name)
       
       const reactionName = Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.name) ? reaction.emoji.name
         : Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.id) ? reaction.emoji.id : null
-        console.log(reactionName)
+        console.log(this.currentPage.reactions[reactionName])
         if (reactionName) {
         switch (this.currentPage.reactions[reactionName]) {
           case 'first':
@@ -151,7 +154,9 @@ class menuModule {
             }
             break
           case 'forward':
+              
             if (this.pageIndex < this.pages.length - 1) {
+                
               this.setPage(this.pageIndex + 1)
             }
             break
@@ -159,10 +164,11 @@ class menuModule {
             this.stop()
             break
           case 'delete':
+         
             this.delete()
             break
           default:
-            console.log("ey")
+       
             this.setPage(this.pages.findIndex(p => p.index === this.currentPage.reactions[reactionName]))
             break
         }
@@ -182,7 +188,8 @@ class menuModule {
 
         //console.log(this.pages)
         try {
-            let fMsg = await this.chan.send(this.pages[0]);
+            let fMsg = await this.chan.send(this.currentPage.embed);
+            this.pageIndex = 0;
 
             this.menu = fMsg;
             this.reactTo();
