@@ -6,7 +6,7 @@
 const { Command } = require("discord-akairo");
 const { MessageEmbed } = require("discord.js");
 
-const menuModule = require('../../utilities/menus.js');
+const menuModule = require('../../utilities/menus2.js');
 
 class ping extends Command {
     constructor() {
@@ -39,52 +39,7 @@ class ping extends Command {
 
         
 
-        let ping = new menuModule(message, [
-            {
-            body: "ayo",
-            reactions: {
 
-                '1': 'backward', //1 [Page Number] OR //forwards, backwards
-                '2': 'delete',
-                '3': 'forward'
-
-        }
-            
-        }, {
-            body: "ayo2",
-            reactions: {
-
-                '1': 'backward', //1 [Page Number] OR //forwards, backwards
-                '2': 'delete',
-                '3': 'forward'
-
-        }
-            
-        }, {
-            body: "ayo3",
-            reactions: {
-
-                '1': 'backward', //1 [Page Number] OR //forwards, backwards
-                '2': 'delete',
-                '3': 'forward'
-
-        }
-            
-        }, {
-            body: "ayo4",
-            reactions: {
-
-                '1': 'backward', //1 [Page Number] OR //forwards, backwards
-                '2': 'delete',
-                '3': 'forward'
-
-        }
-            
-        }
-        
-    ], message.author ,18000);
-
-    ping.startMenu();
        
     } 
 
