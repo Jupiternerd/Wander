@@ -20,7 +20,11 @@ class ready extends Listener {
             client.invite = savedData.invite;
             client.invite_Server = savedData.invite_Server;
 
-            client.footer = savedData.footer;
+            client.footer = {
+                text: savedData.footer,
+                iconURL: client.user.avatarURL,
+                proxyIconURL: client.user.avatarURL
+            }
         }
         try {
             botdb.findOne({

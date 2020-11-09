@@ -36,13 +36,13 @@ class invite extends Command {
             title: `💜 Take me on an adventure?`,
             description: invitelinkBot,
             color: mainColor,
-            setFooter: footer
+            footer: footer
         });
         const inviteYou = new MessageEmbed({
             title: `🏠 Back to my place?`,
             description: invitelinkServ,
             color: secondaryColor,
-            setFooter: footer
+            footer: footer
         });
   
         

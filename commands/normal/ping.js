@@ -32,7 +32,7 @@ class ping extends Command {
             title: "What does this all mean?",
             description: "Server **>** Your Ping. (This Message *minus* from your Command time) \n Discord-API **>** Bot *to* Discord Servers.",
             color: this.client.mainColor,
-            setFooter: this.client.footer
+            footer: this.client.footer
         });
 
         let pingInfo = new Menu(message.channel, message.author.id, [
