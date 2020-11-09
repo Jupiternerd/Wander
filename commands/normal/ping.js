@@ -54,21 +54,8 @@ class ping extends Command {
     ], menuTime);
 
         pingInfo.start()
-
-        
-
-        
-
-
-
-
        
     } 
-
-    
-
-    
-
 
 }
 

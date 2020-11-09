@@ -1,7 +1,8 @@
 const { TextChannel, MessageEmbed } = require('discord.js')
+const { EventEmitter } = require('events') /**@TODO Switch to akairo / gyro emitters */
 const requiredPerms = ['SEND_MESSAGES', 'EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES']
 const emojiNumbers = ["\u0030\u20E3","\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3", "\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"]
-const reactionRegEx = /\[\d*\]/g;
+const reactionRegEx = /[\[\d\]]/g;
 
 /**
  * ORIGINAL @AUTHOR : @Jowsey kudos <3
@@ -15,21 +16,31 @@ class Page {
     * @param {Object} reactions The reactions that'll be added to this page.
     * @param {Number} index The index of this page in the Menu
      */
-  constructor (name, content, reactions, index) {
+   constructor (name, content, reactions, index) {
     this.name = name;
     this.content = content;
- 
-    for (var aReaction in reactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
-        if (reactionRegEx.test(aReaction)) { 
-          aReaction = aReaction.replace("[", "");
-          aReaction = aReaction.replace("]", "");
 
-          if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
-          
-          reactions[emojiNumbers[parseInt(aReaction)]] = reactions["[" + aReaction + "]"]; //replaces old key with the new one from emojiNumbers[aReactions].
-          delete reactions["[" + aReaction + "]"]; //deletes the old key.
+    var countReactions = Object.assign({}, reactions);
+
+    console.log(countReactions) /**@TODO HERE || Seems to only parse only 1-2 then stop then loops*/
+
+
+    for (var aReaction in countReactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
+    const pastReaction = aReaction;
+ 
+      if (reactionRegEx.test(aReaction)) { 
+        aReaction = aReaction.replace("[", "").replace("]", "");
+        if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
+
+        reactions[emojiNumbers[parseInt(aReaction)]] = reactions[pastReaction]; //replaces old key with the new one from emojiNumbers[aReactions].
+        delete reactions[pastReaction]; //deletes the old key./*
+             
         }
+
+        
       } 
+      
+      
 
    
     this.reactions = reactions || {'🆗': 'delete' };
@@ -44,7 +55,7 @@ class Page {
  * Blacklisted page names are: `first, last, previous, next, stop, delete`.
  * These names perform special functions and should only be used as reaction destinations.
  */
-class Menu {
+class Menu extends EventEmitter{
   /**
     * Creates a menu.
     * @param {TextChannel} channel The text channel you want to send the menu in.
@@ -60,6 +71,7 @@ class Menu {
     * These names perform special functions and should only be used as reaction destinations.
     */
   constructor (channel, userID, pages, ms = 180000) {
+    super()
     this.channel = channel
     this.userID = userID
     this.ms = ms
@@ -108,6 +120,7 @@ class Menu {
    * Send the Menu and begin listening for reactions.
    */
   start () {
+    this.emit('pageChange', this.currentPage)
    
     this.channel.send(this.currentPage.content).then(menu => {
       this.menu = menu
@@ -120,6 +133,7 @@ class Menu {
         console.log(`\x1B[96m[discord.js-menu]\x1B[0m ${error.toString()} (whilst trying to send menu message) | You're probably missing 'SEND_MESSAGES' or 'EMBED_LINKS' in #${this.channel.name} (${this.channel.guild.name}), needed for sending the menu message.`)
       }
     })
+    console.log(this.currentPage.reactions)
   }
 
   /**
@@ -136,6 +150,7 @@ class Menu {
    * Delete the menu message.
    */
   delete () {
+    this.emit('pageDelete', this.currentPage)
     if (this.reactionCollector) this.reactionCollector.stop()
     if (this.menu) this.menu.delete()
   }
@@ -160,6 +175,7 @@ class Menu {
    * @param {Number} page The index of the page the Menu should jump to.
    */
   setPage (page = 0) {
+    this.emit('pageChange', this.pages[page])
     
 
     this.pageIndex = page
@@ -187,15 +203,12 @@ class Menu {
   }
 
   secret () {
+    this.emit('pageSecret', this.currentPage)
     console.log("Secret!");
 
   }
 
-  welcome () {
-    console.log("Welcome");
 
-
-  }
 
   /**
    * Start a reaction collector and switch pages where required.

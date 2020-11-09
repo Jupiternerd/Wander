@@ -1,4 +1,5 @@
 const { Listener } = require('discord-gyro');
+
 const serverdb = require('./../models/servers.js');
 
 class guildCreate extends Listener {
@@ -15,8 +16,9 @@ class guildCreate extends Listener {
 
 
         try {
-            const message = chan.send("Running setup!");
-            this.client.commandHandler.runCommand(message, "setup");
+            const message = await chan.send("Thank you for inviting me! Lets start...");
+            const setUp = this.client.commandHandler.modules.find(commandName => commandName.id == "setUp");
+            this.client.commandHandler.runCommand(message, setUp);
             
         } catch (e) {
             console.log("(bot Joins) Cannot send a message! Now will list this server as not initialized.");
