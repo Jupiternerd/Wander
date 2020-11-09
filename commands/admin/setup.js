@@ -21,12 +21,6 @@ class setUp extends Command {
     async exec(message) {
         let chan = message.channel;
         let auth = message.author;
-
-        chan.createWebhook('Helper One');
-        const webhook = await chan.fetchWebhooks().find(w => w.name == "Helper One");
-    
-        console.log(webhook)
-        webhook.send('test')
        
     } 
 
