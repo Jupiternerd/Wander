@@ -23,8 +23,7 @@ class setUp extends Command {
         let auth = message.author;
 
         chan.createWebhook('Helper One');
-        const webhooks = await chan.fetchWebhooks();
-        const webhook = webhooks.find(w => w.name == "Helper One");
+        const webhook = await chan.fetchWebhooks().find(w => w.name == "Helper One");
     
         console.log(webhook)
         webhook.send('test')

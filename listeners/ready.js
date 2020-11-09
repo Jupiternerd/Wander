@@ -19,6 +19,8 @@ class ready extends Listener {
 
             client.invite = savedData.invite;
             client.invite_Server = savedData.invite_Server;
+
+            client.footer = savedData.footer;
         }
         try {
             botdb.findOne({
@@ -40,6 +42,7 @@ class ready extends Listener {
                             activity: "music.",
                             eventID: null,
                             description: "Ayaa",
+                            footer: "Test Footer",
                             invite: "https://discord.com/api/oauth2/authorize?client_id=771256644092297216&permissions=267911120&scope=bot",
                             invite_Server: "https://discord.gg/jcs96PTKkw",
                             prefix: this.client.commandHandler.prefix,

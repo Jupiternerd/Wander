@@ -11,6 +11,7 @@ const botdataSchema = mongoose.Schema({
   inInteract: Boolean,
   invite: String,
   invite_Server: String,
+  footer: String,
   art: String,
   mainColor: String,
   secondaryColor: String,

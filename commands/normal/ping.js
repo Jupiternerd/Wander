@@ -21,18 +21,19 @@ class ping extends Command {
     }
  
     async exec(message) {
+        
+        const menuTime = this.client.menuTime;
 
-        const pingingmsg = await message.channel.send(`🏓 Boing..`)
+        const pingingmsg = await message.channel.send(`📡 Boing...`);
+        setTimeout(function(){pingingmsg.delete()}, menuTime);
 
-        const serverPing = `🏓 **Server** : *${pingingmsg.createdAt - message.createdAt}* miliseconds. \n🗄️ **Discord-API** : *${Math.round(this.client.ws.ping)}* miliseconds.`;
-
+        const serverPing = `🛰️ **Server** **>** *${pingingmsg.createdAt - message.createdAt}* miliseconds. \n🗄️ **Discord-API** **>** *${Math.round(this.client.ws.ping)}* miliseconds.`;
         const pongEmbed = new MessageEmbed({
             title: "What does this all mean?",
-            description: "Server : Your Ping. (This Message *minus* from your Command time) \n Discord-API : Bot *to* Discord Servers.",
-            color: this.client.mainColor
+            description: "Server **>** Your Ping. (This Message *minus* from your Command time) \n Discord-API **>** Bot *to* Discord Servers.",
+            color: this.client.mainColor,
+            setFooter: this.client.footer
         });
-        console.log(this.client.mainColor)
-        
 
         let pingInfo = new Menu(message.channel, message.author.id, [
             {
@@ -50,10 +51,13 @@ class ping extends Command {
                 content: pongEmbed
 
             }
-    ], this.client.menuTime);
+    ], menuTime);
 
         pingInfo.start()
-        pingingmsg.delete(); //Deletes the message sent to compare the latencies.
+
+        
+
+        
 
 
 

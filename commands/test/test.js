@@ -4,7 +4,7 @@
  */
 
 const { Command } = require("discord-gyro");
-const error = require("../../utilities/errors.js")
+const Error  = require("../../utilities/errors.js")
 
 class test extends Command {
     constructor() {
@@ -21,7 +21,7 @@ class test extends Command {
  
     async exec(message) {
 
-        error.send(message.channel, "yhes")
+        Error.send(message.channel, "yhes")
 
 
 

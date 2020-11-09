@@ -24,8 +24,9 @@ class invite extends Command {
 
         const mainColor = this.client.mainColor;
         const secondaryColor = this.client.secondaryColor;
+        const footer = this.client.footer;
 
-        const invitelinkBot = `🔗 [I want to get lost in Discord, won\'t you help me?](${this.client.invite}) (click)`;
+        const invitelinkBot = `🔗 [Help me get lost in Discord!](${this.client.invite}) (click)`;
     
         const invitelinkServ = `🔗 [I don\'t always invite people to my home, come in if you need help.](${this.client.invite_Server}) (click)`;
 
@@ -34,12 +35,14 @@ class invite extends Command {
         const inviteMe = new MessageEmbed({
             title: `💜 Take me on an adventure?`,
             description: invitelinkBot,
-            color: mainColor
+            color: mainColor,
+            setFooter: footer
         });
         const inviteYou = new MessageEmbed({
             title: `🏠 Back to my place?`,
             description: invitelinkServ,
-            color: secondaryColor
+            color: secondaryColor,
+            setFooter: footer
         });
   
         
