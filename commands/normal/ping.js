@@ -21,7 +21,7 @@ class ping extends Command {
     }
  
     async exec(message) {
-        
+         
         const menuTime = this.client.menuTime;
 
         const pingingmsg = await message.channel.send(`📡 Boing...`);
