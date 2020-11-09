@@ -3,7 +3,7 @@
  * @module Command
  */
 
-const { Command } = require("discord-akairo");
+const { Command } = require("discord-gyro");
 const { MessageEmbed } = require("discord.js");
 
 const Menu = require('../../utilities/menus.js');
@@ -40,50 +40,21 @@ class help extends Command {
         pageOne.setTitle("Help Page One!")
         let pageTwo = new MessageEmbed();
         pageTwo.setTitle("Help Page Two!")
-        let secretPage = new MessageEmbed();
-         secretPage.setTitle("Secret!")
+        
 
-         let x = [
-            {
-                name: "pageUno",
-                content: pageOne,
+        const menus = [{
 
-                reactions: {
-                    '⏮️' : 'backward',
-                    '🛑' : 'delete',
-                    '▶️' : 'forward'
-                }
-
-
+            /**@TODO STUFF HERE*/
             
-            }, {
-                name: "pageDos",
-                content: pageTwo,
+        }]
 
-                reactions: {
-                    '⏮️' : 'backward',
-                    '🛑' : 'delete',
-                    '▶️' : 'forward',
-                    
-                    '775017641847947275' : 'secret'
-                }
 
-            }, {
-                name: "secret",
-                content: secretPage,
-
-                reactions: {
-                    '⏮️' : 'first',
-                    '🛑' : 'delete',
-                }
-            }
-    ]
 
  
         
 
  
-        let helpInfo = new Menu(message.channel, message.author.id, x, this.client.menuTime);
+        let helpInfo = new Menu(message.channel, message.author.id, menus, this.client.menuTime);
 
         helpInfo.start()
 

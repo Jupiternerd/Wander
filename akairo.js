@@ -1,5 +1,5 @@
 //@author: Wai
-const {AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler} = require('discord-akairo');
+const {AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler} = require('discord-gyro');
 
 
 class customClient extends AkairoClient {

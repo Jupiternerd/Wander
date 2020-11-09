@@ -1,4 +1,4 @@
-const { Listener } = require('discord-akairo');
+const { Listener } = require('discord-gyro');
 const botdb = require('./../models/bots.js');
 class ready extends Listener {
     constructor() {

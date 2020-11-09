@@ -187,7 +187,13 @@ class Menu {
   }
 
   secret () {
-    console.log("Secret!")
+    console.log("Secret!");
+
+  }
+
+  welcome () {
+    console.log("Welcome");
+
 
   }
 

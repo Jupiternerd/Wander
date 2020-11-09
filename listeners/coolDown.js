@@ -1,16 +1,16 @@
 const { Listener } = require('discord-gyro');
 
-class cooldown extends Listener {
+class coolDown extends Listener {
     constructor() {
-        super('cooldown', {
+        super('coolDown', {
           emitter: 'commandHandler',
           event: 'cooldown'
         });
     }
 
     async exec(message) {
-        return message.channel.send(`${message.author}, slow down!`)
-    }
-}
+        message.channel.send("Cool DOwn!")
 
-module.exports = cooldown;
+}
+}
+module.exports = coolDown;

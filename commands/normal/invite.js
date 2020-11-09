@@ -3,7 +3,7 @@
  * @module Command
  */
 
-const { Command } = require("discord-akairo");
+const { Command } = require("discord-gyro");
 const { MessageEmbed } = require("discord.js");
 
 const Menu = require('../../utilities/menus.js');
