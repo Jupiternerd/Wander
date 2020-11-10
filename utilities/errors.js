@@ -13,10 +13,14 @@ class Error {
             name: "(Orio) Jaiyu",
         }
         const JaiyuHelper = new helper(chan, options);
-        const Jaiyu = await JaiyuHelper.checkHelper();
 
-        if (!Jaiyu) JaiyuHelper.createHelper();
-        if (introduce == true) return Jaiyu.send("Hello.");
+        const Jaiyu = await JaiyuHelper.createHelper();
+        if (introduce == true) { 
+             chan.startTyping();
+             Jaiyu.send("Hello."); 
+             chan.stopTyping();
+
+        }
         
         try {
             Jaiyu.send(`Error **>** *${msg}*`);

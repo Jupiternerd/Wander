@@ -20,10 +20,16 @@ class Log {
             name: "(Orio) Lisa",
         }
         const LisaHelper = new helper(this.chan, options);
-        const Lisa = await LisaHelper.checkHelper();
-        if (!Lisa) LisaHelper.createHelper();
+        const Lisa = await LisaHelper.createHelper();
 
-        if (introduce == true) return Lisa.send(this.logContent);
+        if (introduce == true)  { 
+
+            this.chan.startTyping();
+            Lisa.send(this.logContent); 
+            this.chan.stopTyping();
+            return;
+
+        }
                 
         try {
             Lisa.send(`${this.emj} ${this.logType} **>>** *${this.logContent}*`);

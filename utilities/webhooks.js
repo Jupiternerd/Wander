@@ -1,3 +1,4 @@
+const Discord = require("discord.js")
 class webhooks {
     /**
      * 
@@ -21,7 +22,7 @@ class webhooks {
         try {
 
             const webhooks = await channel.fetchWebhooks();
-            const webhook = webhooks.find(w => w.name == name);
+            const webhook = await webhooks.find(w => w.name == name);
             return (webhook ? webhook : null);
             } catch (e) {
     
@@ -38,15 +39,19 @@ class webhooks {
     async createHelper(channel = this.channel, name = this.name) {
         let helper = await this.checkHelper()
         if (helper == null) {
+
             return channel.createWebhook(name, this.avatar);
         } else {
-            return;
+            return helper;
         }
     
   
         
 
     }
+    /**
+     * Delete Helper 
+     */
 
     deleteHelper() {
 

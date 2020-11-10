@@ -2,8 +2,8 @@ const { TextChannel, MessageEmbed } = require('discord.js')
 const { EventEmitter } = require('events') /**@TODO Switch to akairo / gyro emitters */
 const requiredPerms = ['SEND_MESSAGES', 'EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES']
 const emojiNumbers = ["\u0030\u20E3","\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3", "\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"]
-const reactionRegEx = /[\[\d\]]/g;
-
+const reactionRegEx = /\[\d\]/;
+//const reactionRegEx = RegExp("/[\[\d\]]/g");
 /**
  * ORIGINAL @AUTHOR : @Jowsey kudos <3
  * Edited by me for personal use. mainly small quality of life changes
@@ -20,27 +20,9 @@ class Page {
     this.name = name;
     this.content = content;
 
-    var countReactions = Object.assign({}, reactions);
+    //var countReactions = Object.assign({}, reactions);
 
-    console.log(countReactions) /**@TODO HERE || Seems to only parse only 1-2 then stop then loops*/
-
-
-    for (var aReaction in countReactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
-    const pastReaction = aReaction;
- 
-      if (reactionRegEx.test(aReaction)) { 
-        aReaction = aReaction.replace("[", "").replace("]", "");
-        if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
-
-        reactions[emojiNumbers[parseInt(aReaction)]] = reactions[pastReaction]; //replaces old key with the new one from emojiNumbers[aReactions].
-        delete reactions[pastReaction]; //deletes the old key./*
-             
-        }
-
-        
-      } 
-      
-      
+     /**@TODO HERE || Seems to only parse only 1-2 then stop then loops*/
 
    
     this.reactions = reactions || {'🆗': 'delete' };
@@ -99,7 +81,25 @@ class Menu extends EventEmitter{
     this.pages = []
 
     let i = 0
-    pages.forEach(page => {
+    pages.forEach(async page => {
+      for (var aReaction in page.reactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
+        const pastReaction = aReaction;
+
+        console.log(`This is the reaction before test: ${aReaction} ` + reactionRegEx.test(aReaction))
+     
+          if (reactionRegEx.test(aReaction)) { 
+            console.log(`This emoji of ${aReaction} is an regexed? ` + reactionRegEx.test(aReaction))
+            aReaction = aReaction.replace("[", "").replace("]", "");
+            if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
+    
+            page.reactions[emojiNumbers[parseInt(aReaction)]] = page.reactions[pastReaction]; //replaces old key with the new one from emojiNumbers[aReactions].
+            delete page.reactions[pastReaction]; //deletes the old key./*
+            }
+            
+    
+            
+          } 
+      //console.log(page.reactions)
       this.pages.push(new Page(page.name, page.content, page.reactions, i))
       i++
     })
