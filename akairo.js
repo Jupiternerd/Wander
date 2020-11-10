@@ -12,7 +12,7 @@ class customClient extends AkairoClient {
         });
     this.commandHandler = new CommandHandler(this, {
           directory: './commands/',
-          prefix: '-',
+          prefix: '-', //switch to ready.js 
           handleEdits: false,
           commandUtil: false, 
           defaultCooldown: 5000, //5 seconds

@@ -8,7 +8,8 @@ const { MessageEmbed } = require("discord.js");
 const Log = require('../../utilities/log.js');
 const Jaiyu = require('../../utilities/errors.js')
 
-const Menu = require('../../utilities/menus.js');
+const Me
+nu = require('../../utilities/menus.js');
 
 
 class setUp extends Command {
@@ -33,7 +34,7 @@ class setUp extends Command {
         const footer = this.client.footer;
 
         
-        let menu = new Menu(message.channel, message.author.id, pages, menuTime);
+       /* let menu = new Menu(message.channel, message.author.id, pages, menuTime);
 
         menu.start();
 
@@ -49,10 +50,8 @@ class setUp extends Command {
             }
             
         })
-
-        
-
-
+        */
+       Jaiyu.send(message.channel, "yes", true)
 
 
 
