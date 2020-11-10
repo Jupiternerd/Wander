@@ -10,7 +10,6 @@ class cRouter extends Inhibitor {
     }
 async exec(message, command) {
     if (message.guild === null) return;
-    console.log('matching : ' + command.categoryID)
     const auth = message.author;
 
 switch(command.categoryID) {

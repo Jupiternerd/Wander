@@ -14,6 +14,7 @@ class ping extends Command {
             aliases: ['ping'],
             category: 'standard',
             ratelimit: 1,
+
             description: "pong!",
 
 

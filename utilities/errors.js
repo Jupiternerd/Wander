@@ -13,17 +13,18 @@ class Error {
             name: "(Orio) Jaiyu",
         }
         const JaiyuHelper = new helper(chan, options);
+ 
 
         const Jaiyu = await JaiyuHelper.createHelper();
         if (introduce == true) { 
              chan.startTyping();
-             Jaiyu.send("Hello."); 
-             chan.stopTyping();
+             setTimeout(function() {chan.stopTyping(); Jaiyu.send(msg);}, Math.floor(Math.random() * Math.floor(3000)));
+             return;
 
         }
         
         try {
-            Jaiyu.send(`Error **>** *${msg}*`);
+            Jaiyu.send(`Err **>** *${msg}*`);
 
         } catch (e) {
 

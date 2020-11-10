@@ -37,10 +37,19 @@ class webhooks {
      */
 
     async createHelper(channel = this.channel, name = this.name) {
+       // const guild = channel.guild;
         let helper = await this.checkHelper()
         if (helper == null) {
 
             return channel.createWebhook(name, this.avatar);
+           /* const data = {
+                id: name,
+                type: "webhook"
+            }
+            const newIntegration = await guild.createIntegration(data, "Create character webhooks for error delivery and logging purposes.")
+            console.log(newIntegration)
+            */
+            
         } else {
             return helper;
         }

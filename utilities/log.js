@@ -25,8 +25,7 @@ class Log {
         if (introduce == true)  { 
 
             this.chan.startTyping();
-            Lisa.send(this.logContent); 
-            this.chan.stopTyping();
+            setTimeout(function() {this.chan.stopTyping(); Lisa.send(this.logcontent);}, Math.floor(Math.random() * Math.floor(7000)));
             return;
 
         }
