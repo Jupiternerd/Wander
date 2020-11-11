@@ -3,6 +3,11 @@ const serverSchema = mongoose.Schema({
   _id: Number,
   name: String,
   initialized: Boolean,
+  settings: {
+    useCharacters: Boolean,
+    language: String,
+    userblacklist: Array
+  },
   ownerID: String,
   premium: Boolean,
   main: Boolean,

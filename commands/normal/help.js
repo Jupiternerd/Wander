@@ -5,8 +5,9 @@
 
 const { Command } = require("discord-gyro");
 const { MessageEmbed } = require("discord.js");
-
-const Menu = require('../../utilities/menus.js');
+const utils = "../../utilities/";
+const {checkGuildInit} = require(utils + 'dbUtils.js')
+const Menu = require(utils + 'menus.js');
 
 class help extends Command {
     constructor() {
@@ -21,46 +22,63 @@ class help extends Command {
     }
  
     async exec(message) {
-        /*
-        let i = 0;
-        console.log(this.handler.categories);
+        const guild = message.guild;
+        const footer = this.client.footer;
 
-        this.handler.categories.forEach(async hm => {
+        const notInitEmbed = new MessageEmbed({
+            title: "Something feels wrong...",
+            description: "😔 Server not setup yet, click the reaction to start. (Or -setup)",
+            footer: footer,
+            color: "#facd49"
+        })
+        const helpOne = new MessageEmbed({
+            title: "YES",
+            description: "TES",
+            footer: footer,
+            color: "#facd49"
+        })
 
-            
-          
-            console.log(`HM ` + hm)
-              i++
-              helpString += `\n${i} • **${hm.id}** • \`\`${hm.description}\`\`` 
-          })
-        */
-
-
-        let pageOne = new MessageEmbed();
-        pageOne.setTitle("Help Page One!")
-        let pageTwo = new MessageEmbed();
-        pageTwo.setTitle("Help Page Two!")
+        var data = [];
         
-
-        const menus = [{
-
-            /**@TODO STUFF HERE*/
-            
-        }]
-
-
-
- 
         
+        try {
+            if (await checkGuildInit(guild.id)) {
+                data = [
+                    {
+                        name : "helpOne",
+                        content: helpOne
+                }]
 
- 
-        let helpInfo = new Menu(message.channel, message.author.id, menus, this.client.menuTime);
 
-        helpInfo.start()
+            } else {
 
+                data = [
+                    {
+                        name : "notInit",
+                        content: notInitEmbed,
+                    }]
+                
 
+            }
 
-       
+        } catch(e) {
+            console.log(e);
+        }
+
+        let menu = new Menu(message.channel, message.author.id, data, this.client.menuTime);
+
+        menu.start();
+
+        menu.on('pageDelete', async paged => {
+            if (paged.name == "notInit") {
+                const setUp = this.client.commandHandler.modules.find(commandName => commandName.id == "setUp");
+                const commandRouter = await this.client.inhibitorHandler.test('post', message, setUp);
+                if (commandRouter == null) this.client.commandHandler.runCommand(message, setUp);
+
+            }
+            
+        })
+        
     } 
 
     

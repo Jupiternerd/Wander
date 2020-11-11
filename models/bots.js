@@ -12,7 +12,12 @@ const botdataSchema = mongoose.Schema({
   invite: String,
   invite_Server: String,
   footer: String,
-  art: String,
+  art: {
+    botArt: String,
+    helpArt: String,
+    logArt: String,
+    errorArt: String,
+  },
   mainColor: String,
   secondaryColor: String,
   status: String,

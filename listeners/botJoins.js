@@ -33,8 +33,13 @@ class guildCreate extends Listener {
                     _id: guild.id,
                     name: guild.name,
                     initialized: false,
+                    settings: {
+                        useCharacters: true,
+                        language: "en",
+                        userblacklist: []
+                      },
                     ownerID: guild.ownerID,
-                    premium: false, /**@TODO Do this later. */
+                    premium: (guild.id == 758356626615959572 || 407610772060110860 ? true : false), 
                     main: (guild.id == 758356626615959572 ? true : false),
                     members: guild.memberCount,
                     region: guild.region,

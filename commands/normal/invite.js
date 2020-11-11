@@ -11,7 +11,7 @@ const Menu = require('../../utilities/menus.js');
 class invite extends Command {
     constructor() {
         super('invite', {
-            aliases: ['invite', 'inv'],
+            aliases: ['invite', 'i'],
             category: 'standard',
             ratelimit: 1,
             description: "Sure! Invite me or join me..",

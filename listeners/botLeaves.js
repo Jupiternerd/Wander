@@ -14,7 +14,7 @@ class guildDelete extends Listener {
             await serverdb.findByIdAndDelete({_id: guild.id});
 
             } catch (e) {
-                console.log ("DB Error: Could not delete data from server..")
+                console.log ("DB Error: Could not delete server data from MongoDB..");
 
             }
         

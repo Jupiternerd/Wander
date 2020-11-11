@@ -85,10 +85,10 @@ class Menu extends EventEmitter{
       for (var aReaction in page.reactions) { //This is a monstrosity but I am too lazy right now to fix. It works just.. needs a bit sliming down.
         const pastReaction = aReaction;
 
-        console.log(`This is the reaction before test: ${aReaction} ` + reactionRegEx.test(aReaction))
+
      
           if (reactionRegEx.test(aReaction)) { 
-            console.log(`This emoji of ${aReaction} is an regexed? ` + reactionRegEx.test(aReaction))
+     
             aReaction = aReaction.replace("[", "").replace("]", "");
             if(parseInt(aReaction) > 9) console.error("Only 0-9 reactions allowed."); //if the number is over 9 then we throw err.
     

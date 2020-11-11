@@ -4,7 +4,7 @@
  */
 
 const mongoose = require('mongoose');
-//const userdb = 
+const serverdb = require(".././models/servers.js");
 
 class dbUtils {
 
@@ -36,6 +36,31 @@ class dbUtils {
         }
     
     }
+    /**
+     *checkCharacterUse - gets the database and see if the server uses a certain setting
+     */
+    static async checkCharacterUse(id) {
+        try {
+            const server = await serverdb.findOne({_id: id});
+            return server.settings.useCharacters;
+
+            
+        }catch (e) {
+            console.log("(dbUtils : CheckCharacterUse()) Are you sure we are in a db?")
+        }
+
+    }
+    static async checkGuildInit(id) {
+        try {
+            const server = await serverdb.findOne({_id: id});
+            return server.initialized;
+            
+        }catch (e) {
+            console.log("(dbUtils : checkGuidInit()) Are you sure we are in a db?")
+        }
+
+    }
+
 
 
 }

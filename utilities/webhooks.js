@@ -1,4 +1,4 @@
-const Discord = require("discord.js")
+
 class webhooks {
     /**
      * 
@@ -40,8 +40,11 @@ class webhooks {
        // const guild = channel.guild;
         let helper = await this.checkHelper()
         if (helper == null) {
-
-            return channel.createWebhook(name, this.avatar);
+            try {
+            return channel.createWebhook(name, { avatar: this.avatar });
+            } catch (e) {
+                channel.send("ERR! Jaiyu won\'t fit! [Try deleting some webhooks! Or change your server settings to not use webhooks!]")
+            }
            /* const data = {
                 id: name,
                 type: "webhook"
@@ -59,10 +62,18 @@ class webhooks {
 
     }
     /**
-     * Delete Helper 
+     * Delete
      */
 
-    deleteHelper() {
+    async delete() {
+        try {
+            const helper = await this.checkHelper()
+            if (helper) {
+                helper.delete("User Requested Deletion.")
+            }
+        } catch (e) {
+            console.log(e);
+        }
 
 
 
