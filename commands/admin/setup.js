@@ -32,7 +32,7 @@ class setUp extends Command {
         const secondaryColor = this.client.secondaryColor;
         const footer = this.client.footer;
 
-        message.channel.send("boo")
+        
 
 
 

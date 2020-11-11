@@ -4,15 +4,14 @@
  */
 
 const helper = require("./webhooks.js");
-const serverdb = require(".././models/servers.js");
-const help = require("../commands/normal/help.js");
+const {checkCharacterUse} = require("./dbUtils.js");
 class Error { 
 
     static async send(chan, msg, client, introduce = false) {
 
         try {
-        const server = await serverdb.findOne({_id: chan.guild.id});
-        if (server.settings.useCharacters) {
+
+        if (checkCharacterUse(chan.guild.id)) {
             const options = {
                 name: "(Orio) Jaiyu",
                 avatar: client.errorArt

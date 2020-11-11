@@ -4,7 +4,7 @@
  */
 
 const helper = require("./webhooks.js");
-const serverdb = require(".././models/servers.js")
+const {checkCharacterUse} = require("./dbUtils");
 class Log {
     constructor(chan, options) {
         this.options = options;
@@ -16,8 +16,8 @@ class Log {
     }
  
      async send(client, introduce = false) {
-        const server = await serverdb.findOne({_id: this.chan.guild.id});
-        if(server.settings.userCharacters) {
+        
+        if(checkCharacterUse(this.chan.guild.id)) {
             const options = {
                 name: "(Orio) Lisa",
                 avatar: client.logArt
@@ -46,18 +46,18 @@ class Log {
          }
         } else {
             this.chan.send(`${this.emj} ${this.logType} **>>** *${this.logContent}*`);
+
         }
      }//end Send method
 
-     static async delete() {
+     static async delete(chan = this.chan) {
         const options = {
             name: "(Orio) Lisa",
         }
-        const LisaHelper = new helper(this.chan, options);
+        const LisaHelper = new helper(chan, options);
         try {
             LisaHelper.delete();
         } catch (e) {
-            console.log(e);
             console.log("(errors.js) Something went wrong deleting Lisa.")
         }
 

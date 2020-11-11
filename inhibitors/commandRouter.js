@@ -9,7 +9,8 @@ class cRouter extends Inhibitor {
         })
     }
 async exec(message, command) {
-    if (message.guild === null) return;
+    if (message.channel.type == "dm") return;
+    if (message.author.bot) return;
     const auth = message.author;
 
 switch(command.categoryID) {

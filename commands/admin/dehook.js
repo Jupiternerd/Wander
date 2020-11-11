@@ -4,7 +4,7 @@
  */
 
 const { Command } = require("discord-gyro");
-const { MessageEmbed } = require("discord.js");
+
 const Jaiyu = require('../../utilities/errors.js')
 const Lisa = require("../../utilities/log.js")
 
@@ -22,24 +22,31 @@ class deHook extends Command {
 
     async exec(message) {
         const guild = message.guild;
+        //console.log(guild.channels.cache)
 
         try {
-            for(const channels in guild.channels) {
+            guild.channels.cache.forEach((channels) =>{
+  
                 try {
-                Jaiyu.delete(channels);
-                Lisa.delete(channels);
+                    
+                    if (channels.type == 'text') {
+                        
+                        Jaiyu.delete(channels);
+                        //const LisaH = new Lisa(channels)
+                        Lisa.delete(channels);
+                    }
                 } catch (e) {
                     console.log('(dehook.js) Cannot delete hook!');
                 }
 
-            }
+            })
         
             
         } catch (e) {
             console.log(e);
 
         } finally {
-            message.channel.send("Successfully dehooked all! Feel free to remove me or change the server settings!");
+            message.channel.send("Successfully dehooked Jaiyu and Lisa hooks! Feel free to remove me or change the server settings!");
         }
 
 

@@ -66,13 +66,15 @@ class webhooks {
      */
 
     async delete() {
+        
         try {
             const helper = await this.checkHelper()
             if (helper) {
+
                 helper.delete("User Requested Deletion.")
             }
         } catch (e) {
-            console.log(e);
+            console.log("(webhook.js) Probably no cause of concern but webhook cannot be deleted.");
         }
 
 
