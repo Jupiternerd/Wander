@@ -35,6 +35,9 @@ class guildCreate extends Listener {
                     initialized: false,
                     settings: {
                         useCharacters: true,
+                        useHeyOrio: false,
+                        mainChannel: '',
+                        logChannel: '',
                         language: "en",
                         userblacklist: []
                       },

@@ -5,7 +5,7 @@
 
 const mongoose = require('mongoose');
 const serverdb = require(".././models/servers.js");
-
+const botdb = require(".././models/bots.js");
 class dbUtils {
 
     /**
@@ -57,6 +57,17 @@ class dbUtils {
             
         }catch (e) {
             console.log("(dbUtils : checkGuidInit()) Are you sure we are in a db?")
+        }
+
+    }
+
+    static async getArt() {
+        try {
+            const bot = await botdb.findOne({_id: 2})
+            return bot.art; 
+
+        } catch (e) {
+            console.log("(dbUtils : getArt()) Are you sure we are in a db?")
         }
 
     }

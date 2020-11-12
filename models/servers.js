@@ -5,8 +5,11 @@ const serverSchema = mongoose.Schema({
   initialized: Boolean,
   settings: {
     useCharacters: Boolean,
+    userHeyOrio: Boolean,
     language: String,
-    userblacklist: Array
+    userblacklist: Array,
+    mainChannel: String,
+    logChannel: String,
   },
   ownerID: String,
   premium: Boolean,

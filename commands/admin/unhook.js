@@ -10,10 +10,10 @@ const Lisa = require("../../utilities/log.js")
 
 
 
-class deHook extends Command {
+class unHook extends Command {
     constructor() {
-        super('dehook', {
-            aliases: ['dehook'],
+        super('unhook', {
+            aliases: ['unhook'],
             category: 'admin',
             ratelimit: 1,
             description: "Run me to \'dehook\' all webhooks from your channels. (Admin Privilege needed to see all channels)",
@@ -32,7 +32,6 @@ class deHook extends Command {
                     if (channels.type == 'text') {
                         
                         Jaiyu.delete(channels);
-                        //const LisaH = new Lisa(channels)
                         Lisa.delete(channels);
                     }
                 } catch (e) {
@@ -46,7 +45,7 @@ class deHook extends Command {
             console.log(e);
 
         } finally {
-            message.channel.send("Successfully dehooked Jaiyu and Lisa hooks! Feel free to remove me or change the server settings!");
+            message.channel.send("Successfully unhooked Jaiyu and Lisa hooks! Feel free to remove me or change the server settings!");
         }
 
 
@@ -54,4 +53,4 @@ class deHook extends Command {
     } 
 };
 
-module.exports = deHook;
+module.exports = unHook;

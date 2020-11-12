@@ -17,9 +17,7 @@ class say extends Command {
             ratelimit: 1,
             ownerOnly: true,
 
-            description: "say",
-
-
+            description: "say"
         })
     }
     *args() {
@@ -34,6 +32,7 @@ class say extends Command {
     }
  
     async exec(message, args) {
+        message.delete()
         try {
         const quoted = args.msg.match(/(?:"[^"]*"|^[^"]*$)/)[0].replace(/"/g, "");
         switch(args.type) {

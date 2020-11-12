@@ -20,10 +20,17 @@ class webhooks {
      */
     async checkHelper(channel = this.channel, name = this.name) {
         try {
-
             const webhooks = await channel.fetchWebhooks();
             const webhook = await webhooks.find(w => w.name == name);
-            return (webhook ? webhook : null);
+            console.log(webhooks.size)
+            if (webhooks.size > 2) return null;
+        
+            if (webhook == undefined) {return null} else { return webhook;
+
+            }
+            
+            
+            
             } catch (e) {
     
                 console.error("(webhooks) Cannot verify webhook's existance.");
@@ -39,9 +46,11 @@ class webhooks {
     async createHelper(channel = this.channel, name = this.name) {
        // const guild = channel.guild;
         let helper = await this.checkHelper()
+
         if (helper == null) {
             try {
             return channel.createWebhook(name, { avatar: this.avatar });
+            
             } catch (e) {
                 channel.send("ERR! Jaiyu won\'t fit! [Try deleting some webhooks! Or change your server settings to not use webhooks!]")
             }

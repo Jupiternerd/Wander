@@ -1,5 +1,5 @@
 const { Listener } = require('discord-gyro');
-const Jaiyu = require('./../utilities/errors.js')
+
 class coolDown extends Listener {
     constructor() {
         super('coolDown', {
@@ -9,7 +9,8 @@ class coolDown extends Listener {
     }
 
     async exec(message) {
-      Jaiyu.send(message.channel, `Too fast! Let us catch up, ${message.author}.`)
+    message.channel.send("Chill out!")
+    return;
         
 
 }

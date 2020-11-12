@@ -34,7 +34,7 @@ class ping extends Command {
             description: "Server **>** Your Ping. (This Message *minus* from your Command time) \n Discord-API **>** Bot *to* Discord Servers.",
             color: this.client.mainColor,
             footer: this.client.footer
-        });
+        }).setTimestamp();
 
         let pingInfo = new Menu(message.channel, message.author.id, [
             {
