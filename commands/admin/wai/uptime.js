@@ -7,7 +7,7 @@ const { Command } = require("discord-gyro");
 const { uptime, cpuUsage } = require("bot-utils");
 
 
-class uptime extends Command {
+class upTime extends Command {
     constructor() {
         super('uptime', {
             aliases: ['uptime', 'time', 'usage', 'cpu'],
@@ -29,4 +29,4 @@ class uptime extends Command {
     } 
 };
 
-module.exports = uptime;
+module.exports = upTime;
