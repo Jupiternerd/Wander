@@ -6,6 +6,9 @@
 const mongoose = require('mongoose');
 const serverdb = require(".././models/servers.js");
 const botdb = require(".././models/bots.js");
+const backgrounds = require('../models/backgrounds.js');
+const chars = require('../models/chars.js');
+const users = require('../models/users.js');
 class dbUtils {
 
     /**
@@ -50,6 +53,20 @@ class dbUtils {
         }
 
     }
+    static async getGuild(id) {
+        try {
+            const server = await serverdb.findOne({_id: id});
+            return server;
+            
+        }catch (e) {
+            console.log("(dbUtils : getGuild()) Are you sure we are in a db?")
+        }
+
+    }
+    /**
+     * @notice will be deprecated
+     * @param {} id 
+     */
     static async checkGuildInit(id) {
         try {
             const server = await serverdb.findOne({_id: id});
@@ -60,6 +77,35 @@ class dbUtils {
         }
 
     }
+        /**
+     * @notice will be deprecated
+     * @param {} id 
+     */
+
+    static async checkGuildMain(id, channelid) {
+        try {
+            const server = await serverdb.findOne({_id: id});
+            const mainChans = server.settings.mainChannel;
+            if (!mainChans.includes(channelid)) return false;
+            return true;
+            
+        }catch (e) {
+            console.log("(dbUtils : checkGuidMain()) Are you sure we are in a db?")
+        }
+
+    }
+
+    static async checkGuildLog(id, channelid) {
+        try {
+            const server = await serverdb.findOne({_id: id});
+            const logChan = server.settings.logChannel;
+            if (!logChan == channelid) return false;
+            return true;
+            
+        }catch (e) {
+            console.log("(dbUtils : checkGuidLog()) Are you sure we are in a db?")
+        }
+    }
 
     static async getArt() {
         try {
@@ -68,6 +114,101 @@ class dbUtils {
 
         } catch (e) {
             console.log("(dbUtils : getArt()) Are you sure we are in a db?")
+        }
+
+    }
+    static async getAsset(type, id) {
+        console.log(type + " : " + id)
+  
+        try {
+            if (type == "bg") {
+                //console.log(await backgrounds.findOne({_id: id}) + " ---------------------------------BBB");
+                const retValue = await backgrounds.findOne({name: id});
+                if (!retValue)  {
+                    console.log("wtf")
+                }
+               // console.log(retValue)
+
+                return retValue.link;
+                
+            } else {
+               // return await chars.findOne({_id: id});
+            }
+
+
+        } catch (e) {
+            console.log(e);
+            console.log("(dbUtils : getAssets()) Are you sure we are in a db?")
+        }
+
+    }
+    static async getUser(type, id) {
+        
+  
+        try {
+            return (type == "id" ? await users.findOne({_id: id}) : users.findOne({name: id}));
+
+
+        } catch (e) {
+            console.log(e);
+            console.log("(dbUtils : getUser()) Are you sure we are in a db?")
+        }
+
+    }
+    static async newUser(uObj) {
+
+        try {
+            const db = new users({
+                _id: uObj.id || null,
+                name: uObj.user.username || null,
+                identifier: uObj.discriminator,
+                settings: {
+                    mode: null,
+                    fastRead: false,
+                    themeID: 0
+                },
+                metrics: {
+                    premium: false,
+                    currency: 0,
+                    level: 0,
+                    inventory: {
+                      packs: 0
+                  },
+                    exp: 0,
+                    milestones: [],
+                    badges: []
+                    
+                },
+                content: {
+                    novels: [],
+                    characters: [{
+                        id: 0,
+                        nickname: null,
+                        suffix: null,
+                        relationship: 0,
+                        metrics: {
+                            love: 5,
+                            friendly: 10,
+                            hate: 0,
+                            themeID: 0,
+                            level: 0,
+                            xp: 0
+                        },
+                        
+                        badges: []
+
+                    }, ],
+              
+                }
+              })
+
+            return db.save();
+            
+
+
+        } catch (e) {
+            console.log(e);
+            console.log("(dbUtils : newUser()) Are you sure we are in a db?")
         }
 
     }

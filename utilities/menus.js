@@ -5,7 +5,7 @@ const emojiNumbers = ["\u0030\u20E3","\u0031\u20E3","\u0032\u20E3","\u0033\u20E3
 const reactionRegEx = /\[\d\]/;
 //const reactionRegEx = RegExp("/[\[\d\]]/g");
 /**
- * ORIGINAL @AUTHOR : @Jowsey kudos <3
+ * @ORIGINAL_AUTHOR : @Jowsey kudos <3
  * Edited by me for personal use. mainly small quality of life changes
  */
 class Page {
@@ -265,7 +265,7 @@ class Menu extends EventEmitter{
             // TODO: Sort out documenting this as a TSDoc event.
             sameReactions = JSON.stringify(this.menu.reactions.cache.keyArray()) === JSON.stringify(Object.keys(this.pages.find(p => p.name === this.currentPage.reactions[reactionName]).reactions))
             this.setPage(this.pages.findIndex(p => p.name === this.currentPage.reactions[reactionName]))
-            break
+            break;
         }
       }
     })

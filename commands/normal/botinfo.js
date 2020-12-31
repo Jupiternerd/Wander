@@ -11,7 +11,7 @@ const Lisa = require("../../utilities/log.js")
 class botinfo extends Command {
     constructor() {
         super('botinfo', {
-            aliases: ['botinfo'],
+            aliases: ['botinfo', 'info', 'credits'],
             category: 'standard',
             ratelimit: 1,
             description: "Information about Orio.",
@@ -19,6 +19,10 @@ class botinfo extends Command {
     }
 
     async exec(message) {
+
+        if (message.author.id = this.client.ownerID) {
+            
+        }
 
         
 

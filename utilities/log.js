@@ -4,7 +4,7 @@
  */
 
 const helper = require("./webhooks.js");
-const {checkCharacterUse} = require("./dbUtils");
+const {checkCharacterUse, checkGuildInit} = require("./dbUtils");
 class Log {
     constructor(chan, options) {
         this.options = options;
@@ -17,7 +17,9 @@ class Log {
  
      async send(client, introduce = false) {
         
-        if(checkCharacterUse(this.chan.guild.id)) {
+        let guildID = this.chan.guild.id;
+
+        if (checkCharacterUse(guildID) && checkGuildInit(guildID)) {
             const options = {
                 name: "(Orio) Lisa",
                 avatar: client.logArt

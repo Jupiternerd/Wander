@@ -4,14 +4,16 @@
  */
 
 const helper = require("./webhooks.js");
-const {checkCharacterUse} = require("./dbUtils.js");
+const {checkCharacterUse, checkGuildInit} = require("./dbUtils.js");
 class Error { 
 
     static async send(chan, msg, client, introduce = false) {
+        
 
         try {
+            let guildID = chan.guild.id;
 
-        if (checkCharacterUse(chan.guild.id)) {
+        if (checkCharacterUse(guildID) && checkGuildInit(guildID)) {
             const options = {
                 name: "(Orio) Jaiyu",
                 avatar: client.errorArt

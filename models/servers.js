@@ -8,14 +8,18 @@ const serverSchema = mongoose.Schema({
     userHeyOrio: Boolean,
     language: String,
     userblacklist: Array,
-    mainChannel: String,
+    mainChannel: Array,
     logChannel: String,
   },
+  metrics: {
+    members: Number,
+    region: String,
+    large: Boolean
+  },
+  webhooksLeftToday: Number,
   ownerID: String,
   premium: Boolean,
   main: Boolean,
-  members: Number,
-  region: String,
-  large: Boolean
+
 });
 module.exports = mongoose.model("servers", serverSchema);

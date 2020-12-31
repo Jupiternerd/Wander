@@ -1,0 +1,23 @@
+{
+    "id": 0,
+    "set": 1,
+    "price": 0,
+    "name": "Orio",
+    "description": "I am always going to be the first for everyone.",
+    "likes": 0,
+    "color": 0,
+    "link": {
+        "happy": null,
+        "sad": null,
+        "annoyed": null,
+        "blush": null,
+        "suprised": null
+    },
+    "details": {
+        "bloodType": "O",
+        "age": "18",
+        "sex": 0
+    },
+    "author": "Wei",
+    "artist": "Wei"
+}

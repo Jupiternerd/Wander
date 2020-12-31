@@ -1,4 +1,4 @@
-
+const guilddb = require("../models/servers.js");
 class webhooks {
     /**
      * 
@@ -22,7 +22,7 @@ class webhooks {
         try {
             const webhooks = await channel.fetchWebhooks();
             const webhook = await webhooks.find(w => w.name == name);
-            console.log(webhooks.size)
+        
             if (webhooks.size > 2) return null;
         
             if (webhook == undefined) {return null} else { return webhook;
@@ -44,12 +44,17 @@ class webhooks {
      */
 
     async createHelper(channel = this.channel, name = this.name) {
+        const guild = await guilddb.findOne({_id: channel.guild.id});
+        let numberOfHooksLeft = guild.webhooksLeftToday;
+        if (numberOfHooksLeft <= 0) return channel;
        // const guild = channel.guild;
         let helper = await this.checkHelper()
 
         if (helper == null) {
             try {
-            return channel.createWebhook(name, { avatar: this.avatar });
+                guild.webhooksLeftToday = numberOfHooksLeft - 1;
+                guild.save();
+                 return channel.createWebhook(name, { avatar: this.avatar });
             
             } catch (e) {
                 channel.send("ERR! Jaiyu won\'t fit! [Try deleting some webhooks! Or change your server settings to not use webhooks!]")
@@ -63,6 +68,7 @@ class webhooks {
             */
             
         } else {
+
             return helper;
         }
     

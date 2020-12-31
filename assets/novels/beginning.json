@@ -1,0 +1,49 @@
+{
+    "id": 0,
+    "name": "Beginning",
+    "price": 0,
+    "likes": 0,
+    "set": 1,
+    "author": "N/A",
+    "artist": "N/A",
+    "multiples":[
+       {
+          "type":0,
+          "content":{
+             "bg":"bg_grass",
+             "msg_content":"HAMOOD HEBIBI",
+             "color": "#ff2424"
+          },
+          "lock":2000,
+          "destination":"forward"
+       },
+       {
+          "type":0,
+          "content":{
+             "bg":"bg_ocean",
+             "msg_content":"AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+             "color": "#ffab24"
+          },
+          "destination":"forward"
+       },
+       {
+          "type":0,
+          "content":{
+             "bg":"bg_grass",
+             "msg_content":"321321312312313",
+             "color": "#a0ff24"
+          },
+          "lock":2000,
+          "destination":"forward"
+       },
+       {
+          "type": "g_end",
+          "content":{
+             "bg":"bg_ocean",
+             "msg_content":"Bruh wtf",
+             "color": "#24fff0"
+          },
+          "destination": "stop"
+       }
+    ]
+ }
