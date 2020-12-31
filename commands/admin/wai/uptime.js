@@ -4,7 +4,7 @@
  */
 
 const { Command } = require("discord-gyro");
-const { upTime } = require("bot-utils");
+const { uptime, cpuUsage } = require("bot-utils");
 
 
 class uptime extends Command {
@@ -20,7 +20,7 @@ class uptime extends Command {
 
     async exec(message) {
         const channel = message.channel;
-        await channel.send(`I have been up for : ` + upTime())
+        await channel.send(`I have been up for : ` + uptime())
         channel.send(`Currently using : ` + cpuUsage())
 
 
