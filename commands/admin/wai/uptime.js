@@ -4,13 +4,13 @@
  */
 
 const { Command } = require("discord-gyro");
-const { uptime, cpuUsage } = require("bot-utils");
+const { uptime} = require("bot-utils");
 
 
 class upTime extends Command {
     constructor() {
         super('uptime', {
-            aliases: ['uptime', 'time', 'usage', 'cpu'],
+            aliases: ['uptime', 'time'],
             category: 'wai',
             ratelimit: 1,
             cooldown: 1800000,
@@ -21,7 +21,6 @@ class upTime extends Command {
     async exec(message) {
         const channel = message.channel;
         await channel.send(`I have been up for : ` + uptime())
-        channel.send(`Currently using : ` + cpuUsage())
 
 
 
