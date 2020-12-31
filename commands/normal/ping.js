@@ -26,12 +26,12 @@ class ping extends Command {
         const menuTime = this.client.menuTime;
 
         const pingingmsg = await message.channel.send(`📡 Boing...`);
-        setTimeout(function(){pingingmsg.delete()}, menuTime);
+        
 
-        const serverPing = `🛰️ **Server** **>** *${pingingmsg.createdAt - message.createdAt}* miliseconds. \n🗄️ **Discord-API** **>** *${Math.round(this.client.ws.ping)}* miliseconds.`;
+        const serverPing = `🛰️ **Server** **>** *${pingingmsg.createdAt - message.createdAt}* ms. \n🗄️ **Discord-API** **>** *${Math.round(this.client.ws.ping)}* ms.`;
         const pongEmbed = new MessageEmbed({
             title: "What does this all mean?",
-            description: "Server **>** Your Ping. (This Message *minus* from your Command time) \n Discord-API **>** Bot *to* Discord Servers.",
+            description: "🛰️ • Your Ping. (This Message *minus* from your initial command) \n🗄️ • Bot to Discord Servers.",
             color: this.client.mainColor,
             footer: this.client.footer
         }).setTimestamp();
@@ -55,6 +55,11 @@ class ping extends Command {
     ], menuTime);
 
         pingInfo.start()
+
+        pingInfo.once("pageDelete", () => {
+            pingingmsg.delete()
+
+        })
        
     } 
 

@@ -53,23 +53,22 @@ class help extends Command {
             })
             .setTimestamp()
             .setTitle(`${ciD.id.toUpperCase()}\'s Information :`)
-            .addField("🔖 Aliases •", ciD.aliases, true)
-            .addField("🏷️ Description •", ciD.description, true)
-            .addField("👑 Permission Tier •", ciD.categoryID)
-            .addField("⌛ Ratelimit •", `${ciD.ratelimit} *command per* ${this.handler.defaultCooldown/1000} *minutes*`)
-            .addField("✏️ Editable •", ciD.editable,true)
-            .addField("Owner only? ", ciD.ownerOnly, true);
-
             /*
-            .setDescription(`🔖 Aliases • \`\`${ciD.aliases}\`\`\n🏷️ Description • \`\`${ciD.description}\`\`\n👑 Permission Tier • \`\`${ciD.categoryID}\`\`\n⌛ Ratelimit • \`\`${ciD.ratelimit}\`\` command per \`\`${this.handler.defaultCooldown/1000} minutes\`\`\n✏️ Editable • \`\`${ciD.editable}\`\` (Can use edits to run this command?) \nBot Owner only? • \`\`${ciD.ownerOnly} \`\`\n`)
-            */
-           
+            .addField("🔖 Aliases", `• *${ciD.aliases}*`, true)
+            .addField("🏷️ Description", `• *${ciD.description}*`, true)
+            .addField("👑 Permission Tier", `• ${ciD.categoryID}`, true)
+            .addField("⌛ Ratelimit", `• **${ciD.ratelimit}** ${ciD.ratelimit > 1 ? `*commands` : `*command`}  per*  **${this.handler.defaultCooldown/1000}** *minutes*`, true)
+            .addField("✏️ Editable", `• *${ciD.editable.toString().toUpperCase()}*`, true)
+            .addField("Owner only? ", `• *${ciD.ownerOnly.toString().toUpperCase()}*`, true);
+*/
+            
+            .setDescription(`🔖 Aliases • \`\`${ciD.aliases}\`\`\n🏷️ Description • \`\`${ciD.description}\`\`\n👑 Permission Tier • \`\`${ciD.categoryID}\`\`\n⌛ Ratelimit • \`\`${ciD.ratelimit}\`\` command${ciD.ratelimit > 1 ? 's' : ''} per \`\`${this.handler.defaultCooldown/1000}\`\` minutes\n✏️ Editable • \`\`${ciD.editable}\`\` (Can use edits to run this command?) \nBot Owner only? • \`\`${ciD.ownerOnly} \`\`\n`)
+            
+
             data = [
                 {
                     name : "helpFinal",
                     content: helpS
-
-                
                     
             }]
            
