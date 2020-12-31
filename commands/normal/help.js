@@ -48,13 +48,22 @@ class help extends Command {
         //This one is for specific help page.
         if (ciD) {
             var helpS = new MessageEmbed({
-                footer: this.client.footer
+                footer: this.client.footer,
+                color: mainColor
             })
-            .setColor(mainColor) //Setting color for the information.
             .setTimestamp()
             .setTitle(`${ciD.id.toUpperCase()}\'s Information :`)
-            .setDescription(`🔖 Aliases • \`\`${ciD.aliases}\`\`\n🏷️ Description • \`\`${ciD.description}\`\`\n👑 Permission Tier • \`\`${ciD.categoryID}\`\`\n⌛ Ratelimit • \`\`${ciD.ratelimit}\`\` Per \`\`${this.handler.defaultCooldown/1000} Minutes\`\`\n✏️ Editable • \`\`${ciD.editable}\`\` (Can use edits to run this command?) \nOwner only? • \`\`${ciD.ownerOnly} (Bot Owner)\`\`\n`)
-            
+            .addField("🔖 Aliases •", ciD.aliases, true)
+            .addField("🏷️ Description •", ciD.description, true)
+            .addField("👑 Permission Tier •", ciD.categoryID, true)
+            .addField("⌛ Ratelimit •", `${ciD.ratelimit} *command per* ${this.handler.defaultCooldown/1000} *minutes*`,true)
+            .addField("✏️ Editable •", cid.editable,true)
+            .addField("Owner only? ", cid.ownerOnly, true);
+
+            /*
+            .setDescription(`🔖 Aliases • \`\`${ciD.aliases}\`\`\n🏷️ Description • \`\`${ciD.description}\`\`\n👑 Permission Tier • \`\`${ciD.categoryID}\`\`\n⌛ Ratelimit • \`\`${ciD.ratelimit}\`\` command per \`\`${this.handler.defaultCooldown/1000} minutes\`\`\n✏️ Editable • \`\`${ciD.editable}\`\` (Can use edits to run this command?) \nBot Owner only? • \`\`${ciD.ownerOnly} \`\`\n`)
+            */
+           
             data = [
                 {
                     name : "helpFinal",

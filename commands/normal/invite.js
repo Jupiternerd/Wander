@@ -26,9 +26,9 @@ class invite extends Command {
         const secondaryColor = this.client.secondaryColor;
         const footer = this.client.footer;
 
-        const invitelinkBot = `🔗 [Help me get lost in Discord!](${this.client.invite}) (click)`;
+        const invitelinkBot = `🔗 [Help me get lost in Discord](${this.client.invite})`;
     
-        const invitelinkServ = `🔗 [I don\'t always invite people to my home, come in if you need help.](${this.client.invite_Server}) (click)`;
+        const invitelinkServ = `🔗 [Join if you need help!](${this.client.invite_Server}))`;
 
 
 

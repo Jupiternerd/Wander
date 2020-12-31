@@ -62,7 +62,7 @@ class ready extends Listener {
 
                             },
                             invite: "https://discord.com/api/oauth2/authorize?client_id=771256644092297216&permissions=8&scope=bot",
-                            invite_Server: "https://discord.gg/jcs96PTKkw",
+                            invite_Server: "https://discord.gg/SkfMJjuK",
                             prefix: this.client.commandHandler.prefix,
                             mainColor: "8f71ff",
                             secondaryColor: "82acff"
