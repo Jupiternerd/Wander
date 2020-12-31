@@ -55,8 +55,8 @@ class help extends Command {
             .setTitle(`${ciD.id.toUpperCase()}\'s Information :`)
             .addField("🔖 Aliases •", ciD.aliases, true)
             .addField("🏷️ Description •", ciD.description, true)
-            .addField("👑 Permission Tier •", ciD.categoryID, true)
-            .addField("⌛ Ratelimit •", `${ciD.ratelimit} *command per* ${this.handler.defaultCooldown/1000} *minutes*`,true)
+            .addField("👑 Permission Tier •", ciD.categoryID)
+            .addField("⌛ Ratelimit •", `${ciD.ratelimit} *command per* ${this.handler.defaultCooldown/1000} *minutes*`)
             .addField("✏️ Editable •", ciD.editable,true)
             .addField("Owner only? ", ciD.ownerOnly, true);
 
