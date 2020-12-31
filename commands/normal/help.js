@@ -57,8 +57,8 @@ class help extends Command {
             .addField("🏷️ Description •", ciD.description, true)
             .addField("👑 Permission Tier •", ciD.categoryID, true)
             .addField("⌛ Ratelimit •", `${ciD.ratelimit} *command per* ${this.handler.defaultCooldown/1000} *minutes*`,true)
-            .addField("✏️ Editable •", cid.editable,true)
-            .addField("Owner only? ", cid.ownerOnly, true);
+            .addField("✏️ Editable •", ciD.editable,true)
+            .addField("Owner only? ", ciD.ownerOnly, true);
 
             /*
             .setDescription(`🔖 Aliases • \`\`${ciD.aliases}\`\`\n🏷️ Description • \`\`${ciD.description}\`\`\n👑 Permission Tier • \`\`${ciD.categoryID}\`\`\n⌛ Ratelimit • \`\`${ciD.ratelimit}\`\` command per \`\`${this.handler.defaultCooldown/1000} minutes\`\`\n✏️ Editable • \`\`${ciD.editable}\`\` (Can use edits to run this command?) \nBot Owner only? • \`\`${ciD.ownerOnly} \`\`\n`)
