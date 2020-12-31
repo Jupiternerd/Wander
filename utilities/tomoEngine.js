@@ -78,7 +78,7 @@ loadImage('https://preview.redd.it/58bi512n8e021.jpg?width=811&format=pjpg&auto=
     ctx.drawImage(img, 50, 0, 70, 70)
 })
 //console.log(canvas.toDataURL())
-const attachmentT = await new MessageAttachment(canvas.toBuffer(), `xd.png`);
+const attachmentT = new MessageAttachment(canvas.toBuffer(), `xd.png`);
 this.channel.send(attachmentT);
 
 

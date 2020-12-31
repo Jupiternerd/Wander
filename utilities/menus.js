@@ -222,10 +222,16 @@ class Menu extends EventEmitter{
       const reactionName = Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.name)
         ? reaction.emoji.name
         : Object.prototype.hasOwnProperty.call(this.currentPage.reactions, reaction.emoji.id) ? reaction.emoji.id : null
+
+      // If a 3rd party tries to add reactions or the reaction isn't registered, delete it.
+      if (user.id !== this.userID || !Object.keys(this.currentPage.reactions).includes(reactionName)) {
+        return reaction.users.remove(user)
+      }
       if (reactionName) {
         this.reactionCollector.on('end', () => {
           !sameReactions ? this.clearReactions() : reaction.users.remove(user)
         })
+        
 
         switch (this.currentPage.reactions[reactionName]) {
           case 'first':
